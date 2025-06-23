@@ -120,9 +120,8 @@ class Microcom {
                             defaultValue: 13
                         },
                         VALUE: {
-                            type: ArgumentType.STRING,
-                            menu: 'menu2',
-                            defaultValue: OnOffMenu.OFF
+                            type: ArgumentType.NUMBER,
+                            defaultValue: 0
                         },
                         
                     }
