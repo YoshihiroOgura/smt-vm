@@ -36,7 +36,7 @@ class Microcom {
         // this.runtime.on('targetWasCreated', this._onTargetCreated);
     }
 
-    // ドロップボックスメニュー (PinMenu) 
+    // ドロップボックスメニュー (PinMenu)
     static get PinMenu () {
         return PinMenu;
     }
@@ -65,7 +65,7 @@ class Microcom {
         ];
     }
 
-    // ドロップボックスメニュー  
+    // ドロップボックスメニュー
     static get OnOffMenu () {
         return OnOffMenu;
     }
@@ -307,10 +307,50 @@ class Microcom {
                     }
                 },
                 {
+                    opcode: 'i2c_write_2',
+                    text: formatMessage({
+                        id: 'microcom.i2c_write_2',
+                        default: 'I2C (output): address 0x[NUM1], command 0x[NUM2]'
+                    }),
+                    blockType: BlockType.COMMAND,
+                    arguments: {
+                        NUM1: {
+                            type: ArgumentType.NUMBER,
+                            defaultValue: 10
+                        },
+                        NUM2: {
+                            type: ArgumentType.NUMBER,
+                            defaultValue: 40
+                        }
+                    }
+                },
+                {
                     opcode: 'i2c_read',
                     text: formatMessage({
                         id: 'microcom.i2c_read',
-                        default: 'I2C (input): address 0x[NUM1], number of bytes [NUM2]'
+                        default: 'I2C (input): slave address 0x[NUM1], number of bytes [NUM2], address 0x[NUM3]'
+                    }),
+                    blockType: BlockType.REPORTER,
+                    arguments: {
+                        NUM1: {
+                            type: ArgumentType.NUMBER,
+                            defaultValue: 10
+                        },
+                        NUM2: {
+                            type: ArgumentType.NUMBER,
+                            defaultValue: 8
+                        },
+                        NUM3: {
+                            type: ArgumentType.NUMBER,
+                            defaultValue: 8
+                        }
+                    }
+                },
+                {
+                    opcode: 'i2c_read_2',
+                    text: formatMessage({
+                        id: 'microcom.i2c_read_2',
+                        default: 'I2C (input): slave address 0x[NUM1], number of bytes [NUM2]'
                     }),
                     blockType: BlockType.REPORTER,
                     arguments: {
@@ -374,6 +414,65 @@ class Microcom {
                             type: ArgumentType.STRING,
                             menu: 'menu1',
                             defaultValue: PinMenu.PIN2
+                        }
+                    }
+                },
+                {
+                    opcode: 'ms_sleep',
+                    text: formatMessage({
+                        id: 'microcom.ms_sleep',
+                        default: 'sleep for [NUM1] ms'
+                    }),
+                    blockType: BlockType.COMMAND,
+                    arguments: {
+                        NUM1: {
+                            type: ArgumentType.NUMBER,
+                            defaultValue: 1
+                        }
+                    }
+                },
+                {
+                    opcode: 'array_get',
+                    text: formatMessage({
+                        id: 'microcom.array_get',
+                        default: 'get [NUM2] from [NUM1] array'
+                    }),
+                    blockType: BlockType.REPORTER,
+                    arguments: {
+                        NUM1: {
+                            type: ArgumentType.NUMBER,
+                            defaultValue: 1
+                        },
+                        NUM2: {
+                            type: ArgumentType.NUMBER,
+                            defaultValue: 1
+                        }
+                    }
+                },
+                {
+                    opcode: 'ord',
+                    text: formatMessage({
+                        id: 'microcom.ord',
+                        default: 'character code of [NUM1]'
+                    }),
+                    blockType: BlockType.REPORTER,
+                    arguments: {
+                        NUM1: {
+                            type: ArgumentType.NUMBER,
+                            defaultValue: 1
+                        }
+                    }
+                },
+                {
+                    opcode: 'puts',
+                    text: formatMessage({
+                        id: 'microcom.puts',
+                        default: 'output [TEXT]'
+                    }),
+                    blockType: BlockType.COMMAND,
+                    arguments: {
+                        TEXT: {
+                            type: ArgumentType.STRING
                         }
                     }
                 }
@@ -466,9 +565,27 @@ class Microcom {
         log.log(num3);
     }
 
+    i2c_write_2 (args) {
+        const num1 = Cast.toString(args.NUM1);
+        const num2 = Cast.toString(args.NUM2);
+        log.log(num1);
+        log.log(num2);
+    }
+
     i2c_read (args) {
         const num1 = Cast.toString(args.NUM1);
+        const num2 = Cast.toString(args.NUM2);
+        const num3 = Cast.toString(args.NUM3);
         log.log(num1);
+        log.log(num2);
+        log.log(num3);
+    }
+
+    i2c_read_2 (args) {
+        const num1 = Cast.toString(args.NUM1);
+        const num2 = Cast.toString(args.NUM2);
+        log.log(num1);
+        log.log(num2);
     }
 
     uart_init (args) {
